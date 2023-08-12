@@ -1,13 +1,19 @@
-﻿
-using System;
-using System.Globalization;
+﻿using System;
+using System.Linq;
 
-class TitleConverter
+class TwoLowestSumCalculator
 {
-    public static string ConvertToTitleCase(string input)
+    public static int CalculateTwoLowestSum(int[] numbers)
     {
-        TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-        return textInfo.ToTitleCase(input);
+        var positiveNumbers = numbers.Where(num => num > 0).OrderBy(num => num);
+
+        if (positiveNumbers.Count() < 2)
+        {
+            Console.WriteLine("There are not enough positive numbers to calculate the sum.");
+            return 0;
+        }
+
+        return positiveNumbers.Take(2).Sum();
     }
 }
 
@@ -15,10 +21,17 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.Write("Enter a sentence: ");
-        string inputSentence = Console.ReadLine();
+        Console.Write("Enter the number of elements: ");
+        int n = int.Parse(Console.ReadLine());
 
-        string convertedTitle = TitleConverter.ConvertToTitleCase(inputSentence);
-        Console.WriteLine("Converted sentence: " + convertedTitle);
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++)
+        {
+            Console.Write($"Enter element {i + 1}: ");
+            array[i] = int.Parse(Console.ReadLine());
+        }
+
+        int sum = TwoLowestSumCalculator.CalculateTwoLowestSum(array);
+        Console.WriteLine("Sum of two lowest positive numbers: " + sum);
     }
 }
