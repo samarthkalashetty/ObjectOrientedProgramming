@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 
-class UniqueElementTracker
+class ElementFrequencyCounter
 {
-    private HashSet<int> uniqueElements;
+    private Dictionary<int, int> frequencyMap;
 
-    public UniqueElementTracker()
+    public ElementFrequencyCounter()
     {
-        uniqueElements = new HashSet<int>();
+        frequencyMap = new Dictionary<int, int>();
     }
 
-    public void AddElement(int num)
+    public void CountElement(int num)
     {
-        uniqueElements.Add(num);
-    }
-
-    public void PrintUniqueElements()
-    {
-        Console.WriteLine("Unique elements:");
-        foreach (int element in uniqueElements)
+        if (frequencyMap.ContainsKey(num))
         {
-            Console.Write(element + " ");
+            frequencyMap[num]++;
         }
-        Console.WriteLine();
+        else
+        {
+            frequencyMap[num] = 1;
+        }
+    }
+
+    public void PrintElementFrequencies()
+    {
+        Console.WriteLine("Element Frequencies:");
+        foreach (var entry in frequencyMap)
+        {
+            Console.WriteLine($"{entry.Key}: {entry.Value} times");
+        }
     }
 }
 
@@ -40,12 +46,12 @@ class Program
             array[i] = int.Parse(Console.ReadLine());
         }
 
-        UniqueElementTracker tracker = new UniqueElementTracker();
+        ElementFrequencyCounter counter = new ElementFrequencyCounter();
         foreach (int num in array)
         {
-            tracker.AddElement(num);
+            counter.CountElement(num);
         }
 
-        tracker.PrintUniqueElements();
+        counter.PrintElementFrequencies();
     }
 }
