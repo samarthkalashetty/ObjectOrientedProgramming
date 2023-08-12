@@ -1,17 +1,19 @@
 ﻿using System;
 
-class PatternPrinter
+class WordReverser
 {
-    public static void PrintPattern(int rows)
+    public static string ReverseWords(string input)
     {
-        for (int i = rows; i >= 1; i--)
+        string[] words = input.Split(' ');
+
+        for (int i = 0; i < words.Length; i++)
         {
-            for (int j = 1; j <= i; j++)
-            {
-                Console.Write("*");
-            }
-            Console.WriteLine();
+            char[] charArray = words[i].ToCharArray();
+            Array.Reverse(charArray);
+            words[i] = new string(charArray);
         }
+
+        return string.Join(" ", words);
     }
 }
 
@@ -19,9 +21,10 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.Write("Enter the number of rows: ");
-        int rows = int.Parse(Console.ReadLine());
+        Console.Write("Enter a string: ");
+        string inputString = Console.ReadLine();
 
-        PatternPrinter.PrintPattern(rows);
+        string reversedWordsString = WordReverser.ReverseWords(inputString);
+        Console.WriteLine("Reversed words: " + reversedWordsString);
     }
 }
