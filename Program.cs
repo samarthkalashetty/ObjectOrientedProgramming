@@ -1,28 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
 
-class UniqueElementTracker
+class ElementAnalyzer
 {
-    private HashSet<int> uniqueElements;
+    private int[] array;
+    private int maximum;
+    private int minimum;
+    private bool analyzed;
 
-    public UniqueElementTracker()
+    public ElementAnalyzer(int[] inputArray)
     {
-        uniqueElements = new HashSet<int>();
+        array = inputArray;
+        analyzed = false;
     }
 
-    public void AddElement(int num)
+    public void AnalyzeElements()
     {
-        uniqueElements.Add(num);
-    }
-
-    public void PrintUniqueElements()
-    {
-        Console.WriteLine("Unique elements:");
-        foreach (int element in uniqueElements)
+        if (array.Length == 0)
         {
-            Console.Write(element + " ");
+            Console.WriteLine("Array is empty.");
+            return;
         }
-        Console.WriteLine();
+
+        maximum = array[0];
+        minimum = array[0];
+
+        foreach (int num in array)
+        {
+            if (num > maximum)
+            {
+                maximum = num;
+            }
+
+            if (num < minimum)
+            {
+                minimum = num;
+            }
+        }
+
+        analyzed = true;
+    }
+
+    public void PrintResults()
+    {
+        if (!analyzed)
+        {
+            Console.WriteLine("Please analyze elements first.");
+            return;
+        }
+
+        Console.WriteLine($"Maximum element: {maximum}");
+        Console.WriteLine($"Minimum element: {minimum}");
     }
 }
 
@@ -40,12 +67,8 @@ class Program
             array[i] = int.Parse(Console.ReadLine());
         }
 
-        UniqueElementTracker tracker = new UniqueElementTracker();
-        foreach (int num in array)
-        {
-            tracker.AddElement(num);
-        }
-
-        tracker.PrintUniqueElements();
+        ElementAnalyzer analyzer = new ElementAnalyzer(array);
+        analyzer.AnalyzeElements();
+        analyzer.PrintResults();
     }
 }
