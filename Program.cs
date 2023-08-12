@@ -1,41 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 
-class DuplicateCounter
+class UniqueElementTracker
 {
-    private Dictionary<int, int> frequencyMap;
+    private HashSet<int> uniqueElements;
 
-    public DuplicateCounter()
+    public UniqueElementTracker()
     {
-        frequencyMap = new Dictionary<int, int>();
+        uniqueElements = new HashSet<int>();
     }
 
-    public void CountDuplicates(int[] array)
+    public void AddElement(int num)
     {
-        foreach (int num in array)
-        {
-            if (frequencyMap.ContainsKey(num))
-            {
-                frequencyMap[num]++;
-            }
-            else
-            {
-                frequencyMap[num] = 1;
-            }
-        }
+        uniqueElements.Add(num);
     }
 
-    public int GetTotalDuplicateCount()
+    public void PrintUniqueElements()
     {
-        int duplicateCount = 0;
-        foreach (var pair in frequencyMap)
+        Console.WriteLine("Unique elements:");
+        foreach (int element in uniqueElements)
         {
-            if (pair.Value > 1)
-            {
-                duplicateCount += pair.Value - 1;
-            }
+            Console.Write(element + " ");
         }
-        return duplicateCount;
+        Console.WriteLine();
     }
 }
 
@@ -43,15 +30,22 @@ class Program
 {
     static void Main(string[] args)
     {
-        int[] array = new int[5];
-        Console.WriteLine("Enter the element");
-        Console.ReadLine();
-    
+        Console.Write("Enter the number of elements: ");
+        int n = int.Parse(Console.ReadLine());
 
-        DuplicateCounter counter = new DuplicateCounter();
-        counter.CountDuplicates(array);
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++)
+        {
+            Console.Write($"Enter element {i + 1}: ");
+            array[i] = int.Parse(Console.ReadLine());
+        }
 
-        int totalDuplicateCount = counter.GetTotalDuplicateCount();
-        Console.WriteLine("Total number of duplicate elements: " + totalDuplicateCount);
+        UniqueElementTracker tracker = new UniqueElementTracker();
+        foreach (int num in array)
+        {
+            tracker.AddElement(num);
+        }
+
+        tracker.PrintUniqueElements();
     }
 }
